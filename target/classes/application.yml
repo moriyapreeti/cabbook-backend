@@ -1,0 +1,72 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+spring:
+  application:
+    name: cabbook
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/cabbook}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:Post@#45Sql}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.batch_size: 30
+  flyway:
+    enabled: true
+  mail:
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USER:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+cabbook:
+  jwt:
+    secret: ${JWT_SECRET:change-me-change-me-change-me-change-me-1234}
+    expiry-minutes: 120
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+  fare:
+    base: 40.00
+    per-km: 12.00
+    per-minute: 1.50
+    minimum: 60.00
+    avg-speed-kmph: 25
+  admin:
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+  matching:
+    radius-km: 5
+    max-drivers: 10
+  mail:
+    from: ${MAIL_FROM:no-reply@cabbook.local}
+  routing:
+    provider: ${ROUTING_PROVIDER:haversine}   # haversine | osrm
+    osrm-url: ${OSRM_URL:http://localhost:5000}
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:}
+    currency: inr
+
+management:
+  health:
+    mail:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint: 
+    health: 
+      show-details: always 
+      show-components: always
+        
